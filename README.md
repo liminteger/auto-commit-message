@@ -25,9 +25,9 @@ AutoCommit은 `git diff`의 내용을 분석하여 적절한 커밋 메시지를
 - Bash 쉘
 - Git
 
-### Windows
-- PowerShell 5.1 이상
-- Git for Windows
+~~### Windows~~
+~~- PowerShell 5.1 이상~~
+~~- Git for Windows~~
 
 ## 설치 방법
 
@@ -45,25 +45,25 @@ chmod +x install.sh
 ./install.sh
 ```
 
-### Windows
+~~### Windows~~
 
-1. 저장소 클론
-```powershell
-git clone https://github.com/yourusername/autocommit.git
-cd autocommit\windows
-```
+~~1. 저장소 클론~~
+~~```powershell~~
+~~git clone https://github.com/yourusername/autocommit.git~~
+~~cd autocommit\windows~~
+~~```~~
 
-2. PowerShell을 관리자 권한으로 실행하고 정책 설정
-```powershell
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
+~~2. PowerShell을 관리자 권한으로 실행하고 정책 설정~~
+~~```powershell~~
+~~Set-ExecutionPolicy RemoteSigned -Scope CurrentUser~~
+~~```~~
 
-3. 설치 스크립트 실행
-```powershell
-.\install.ps1
-```
+~~3. 설치 스크립트 실행~~
+~~```powershell~~
+~~.\install.ps1~~
+~~```~~
 
-4. 새 터미널 창을 열고 `autocommit` 명령 확인
+~~4. 새 터미널 창을 열고 `autocommit` 명령 확인~~
 
 ## 사용 방법
 
@@ -94,7 +94,7 @@ autocommit
 - 기본 패턴 매칭 시스템은 외부 의존성 없이 작동합니다
 
 ### Windows 관련 문제
-- Windows에서 특별한 문제가 있는 경우 [windows/README.md](windows/README.md)를 참조하세요.
+~~- Windows에서 특별한 문제가 있는 경우 [windows/README.md](windows/README.md)를 참조하세요.~~
 - WSL(Windows Subsystem for Linux)에서도 Linux 버전 스크립트 사용 가능
 
 ## 기여 방법

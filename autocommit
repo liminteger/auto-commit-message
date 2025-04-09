@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# 간소화된 autocommit 스크립트
+VERSION="1.0.3"
+
+# git diff 정보 가져오기
+GIT_DIFF=$(git diff --staged)
+
+if [ -z "$GIT_DIFF" ]; then
+    echo "스테이징된 변경 사항이 없습니다. git add 명령어로 파일을 스테이징하세요."
+    exit 1
+fi
+
+# 변경된 파일 목록 가져오기
+CHANGED_FILES=$(git diff --staged --name-only)
+echo "변경된 파일: $CHANGED_FILES"
+
+# 변경 통계 요약
+DIFF_STAT=$(git diff --staged --stat | tail -n1)
+echo "변경 요약: $DIFF_STAT"
+
+echo "변경 사항을 분석하여 커밋 메시지를 생성 중..."
+
+# 변경된 파일 수 계산
+FILES_COUNT=$(echo "$CHANGED_FILES" | wc -l)
+
+# 파일 유형 확인
+if echo "$CHANGED_FILES" | grep -q "\.md$"; then
+    if echo "$CHANGED_FILES" | grep -q "README.md"; then
+        COMMIT_MESSAGE="docs: README 문서 업데이트"
+    else
+        COMMIT_MESSAGE="docs: 문서 업데이트"
+    fi
+elif echo "$CHANGED_FILES" | grep -q "LICENSE$"; then
+    COMMIT_MESSAGE="chore: 라이센스 파일 추가"
+elif echo "$CHANGED_FILES" | grep -q "\.sh$"; then
+    COMMIT_MESSAGE="feat: 쉘 스크립트 업데이트"
+elif [ "$FILES_COUNT" -gt 5 ]; then
+    COMMIT_MESSAGE="feat: 여러 파일 추가 및 업데이트"
+elif echo "$GIT_DIFF" | grep -q "app\.get"; then
+    # 라우트 관련 변경
+    if echo "$GIT_DIFF" | grep -q "^\+.*app\.get"; then
+        ROUTE=$(echo "$GIT_DIFF" | grep -o "app\.get.*('/[^']*'" | grep -o "'/[^']*'" | head -1 | tr -d "'")
+        if [ -n "$ROUTE" ]; then
+            COMMIT_MESSAGE="feat: $ROUTE 엔드포인트 추가"
+        else
+            COMMIT_MESSAGE="feat: 새 API 엔드포인트 추가"
+        fi
+    else
+        COMMIT_MESSAGE="refactor: API 엔드포인트 수정"
+    fi
+elif echo "$CHANGED_FILES" | grep -q "\.js$"; then
+    COMMIT_MESSAGE="feat: JavaScript 코드 업데이트"
+elif echo "$CHANGED_FILES" | grep -q "\.css$\|\.scss$"; then
+    COMMIT_MESSAGE="style: 스타일 파일 수정"
+elif echo "$CHANGED_FILES" | grep -q "\.html$"; then
+    COMMIT_MESSAGE="feat: HTML 템플릿 수정"
+else
+    # 기본 메시지
+    FILE_NAME=$(basename "$(echo "$CHANGED_FILES" | head -1)")
+    COMMIT_MESSAGE="chore: $FILE_NAME 파일 업데이트"
+fi
+
+# 추출된 커밋 메시지를 출력하고 사용자에게 확인을 요청합니다
+echo "제안된 커밋 메시지: $COMMIT_MESSAGE"
+read -p "이 메시지로 커밋하시겠습니까? (y/n/e-편집): " confirm
+
+if [ "$confirm" = "y" ]; then
+    git commit -m "$COMMIT_MESSAGE"
+    echo "성공적으로 커밋되었습니다!"
+elif [ "$confirm" = "e" ]; then
+    read -p "새 커밋 메시지를 입력하세요: " new_message
+    git commit -m "$new_message"
+    echo "입력하신 메시지로 커밋되었습니다!"
+else
+    echo "커밋이 취소되었습니다."
+fi

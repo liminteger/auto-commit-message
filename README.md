@@ -72,7 +72,8 @@ chmod +x install-ollama.sh
 ```bash
 cd gemini
 chmod +x install-gemini.sh
-./install-gemini.sh
+chmod +x autocommit-gemini.sh
+bash ./install-gemini.sh
 ```
 
 ### 패턴 매칭 버전 설치
@@ -143,7 +144,7 @@ autocommit-ollama
 
 #### API 키 설정
 
-Gemini API 키는 설치 과정에서 설정하거나 다음과 같이 환경 변수로 설정할 수 있습니다:
+Gemini API 키는 아래와 같이 환경 변수로 설정해야 합니다!
 
 ```bash
 export GEMINI_API_KEY="your-api-key-here"

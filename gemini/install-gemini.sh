@@ -45,7 +45,7 @@ if ! command -v curl &> /dev/null; then
 fi
 
 # Create installation directory
-INSTALL_DIR="${HOME}/.local/bin"
+INSTALL_DIR="usr/local/bin"
 mkdir -p "$INSTALL_DIR"
 
 # Copy script
@@ -85,52 +85,6 @@ if [[ ":$PATH:" != *":${INSTALL_DIR}:"* ]]; then
     else
         echo "Could not determine shell configuration file."
         echo "Please manually add ${INSTALL_DIR} to your PATH."
-    fi
-fi
-
-# Prompt about API key
-echo
-echo "The autocommit-gemini script requires a Google Gemini API key."
-echo "You can configure this in two ways:"
-
-# Check if API key is already set in the script
-if grep -q "local api_key=\"AIzaSy" "${INSTALL_DIR}/autocommit-gemini"; then
-    echo "1. The script already contains an API key."
-    echo "2. If you prefer, you can set the GEMINI_API_KEY environment variable instead."
-    
-    read -p "Would you like to set the GEMINI_API_KEY environment variable? (y/n): " set_env_var
-    if [ "$set_env_var" = "y" ]; then
-        read -p "Enter your Gemini API key: " gemini_key
-        
-        if [ -n "$SHELL_CONFIG" ]; then
-            echo -e "\n# Added by autocommit-gemini installer" >> "$SHELL_CONFIG"
-            echo "export GEMINI_API_KEY=\"$gemini_key\"" >> "$SHELL_CONFIG"
-            echo "Added GEMINI_API_KEY to $SHELL_CONFIG."
-            echo "Please restart your shell or run 'source $SHELL_CONFIG' to set the environment variable."
-        else
-            echo "Could not determine shell configuration file."
-            echo "Please manually add the following to your shell configuration file:"
-            echo "export GEMINI_API_KEY=\"$gemini_key\""
-        fi
-    fi
-else
-    echo "1. Set it as an environment variable GEMINI_API_KEY in your shell configuration"
-    echo "2. Directly edit the script to add your API key"
-    
-    read -p "Enter your Gemini API key (leave empty to edit the script manually later): " gemini_key
-    
-    if [ -n "$gemini_key" ] && [ -n "$SHELL_CONFIG" ]; then
-        echo -e "\n# Added by autocommit-gemini installer" >> "$SHELL_CONFIG"
-        echo "export GEMINI_API_KEY=\"$gemini_key\"" >> "$SHELL_CONFIG"
-        echo "Added GEMINI_API_KEY to $SHELL_CONFIG."
-        echo "Please restart your shell or run 'source $SHELL_CONFIG' to set the environment variable."
-    elif [ -n "$gemini_key" ]; then
-        echo "Could not determine shell configuration file."
-        echo "Please manually add the following to your shell configuration file:"
-        echo "export GEMINI_API_KEY=\"$gemini_key\""
-    else
-        echo "No API key provided. You will need to set the GEMINI_API_KEY environment variable"
-        echo "or edit the script at ${INSTALL_DIR}/autocommit-gemini before using it."
     fi
 fi
 

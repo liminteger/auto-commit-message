@@ -1,0 +1,46 @@
+name: "✨ 기능 요청"
+description: "새로운 기능 추가 요청"
+labels: ["✨enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 기능 요청을 위한 가이드라인
+        새로운 기능 아이디어를 자세히 설명해 주세요.
+  
+  - type: textarea
+    id: description
+    attributes:
+      label: 📄 설명
+      description: 새로운 기능에 대한 설명을 작성해 주세요.
+      placeholder: 자세히 적을수록 좋습니다!
+    validations:
+      required: true
+  
+  - type: textarea
+    id: todo
+    attributes:
+      label: ✅ 작업할 내용
+      description: 할 일을 체크박스 형태로 작성해주세요.
+      placeholder: |
+        최대한 세분화 해서 적어주세요!
+        예시:
+        - [ ] 기능 A 구현
+        - [ ] 테스트 코드 작성
+        - [ ] 문서화
+    validations:
+      required: true
+  
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 대안 고려사항
+      description: 고려한 대안이나 다른 접근 방식이 있나요?
+      placeholder: 다른 방법도 고려해보셨다면 공유해주세요.
+  
+  - type: textarea
+    id: references
+    attributes:
+      label: 🙋🏻 참고 자료
+      description: 참고 자료가 있다면 작성해 주세요.
+      placeholder: 링크나 스크린샷 등을 첨부해주세요.

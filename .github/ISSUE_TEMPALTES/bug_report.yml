@@ -1,0 +1,92 @@
+name: "🐞 버그 리포트"
+description: "버그를 신고하여 개선에 도움을 주세요"
+labels: ["🐛bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 버그 리포트 작성을 위한 가이드라인
+        버그를 상세히 설명해 주시면 빠른 해결에 도움이 됩니다.
+  
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: 버그 설명
+      description: 버그에 대해 명확하고 간결하게 설명해 주세요.
+      placeholder: 어떤 문제가 발생했는지 자세히 적어주세요.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 재현 단계
+      description: 버그를 재현하는 단계를 상세히 설명해주세요.
+      placeholder: |
+        1. '...'로 이동
+        2. '....'를 클릭
+        3. '....'를 확인
+        4. 에러 발생
+    validations:
+      required: true
+  
+  - type: textarea
+    id: expected
+    attributes:
+      label: 기대 동작
+      description: 어떤 동작이 일어날 것으로 기대했는지 설명해 주세요.
+      placeholder: 정상적으로 작동했다면 어떻게 되었을지 설명해주세요.
+    validations:
+      required: true
+  
+  - type: textarea
+    id: actual
+    attributes:
+      label: 실제 동작
+      description: 실제로 어떤 일이 발생했는지 설명해 주세요.
+      placeholder: 실제로 일어난 현상을 자세히 설명해주세요.
+    validations:
+      required: true
+  
+  - type: dropdown
+    id: os
+    attributes:
+      label: 운영체제
+      description: 어떤 운영체제에서 문제가 발생했나요?
+      options:
+        - Linux (Ubuntu/Debian)
+        - Linux (Other)
+        - macOS
+        - Windows
+        - Other
+    validations:
+      required: true
+  
+  - type: dropdown
+    id: shell
+    attributes:
+      label: 사용 쉘
+      description: 어떤 쉘을 사용하고 있나요?
+      options:
+        - Bash
+        - Zsh
+        - Fish
+        - PowerShell
+        - CMD
+        - Other
+    validations:
+      required: true
+  
+  - type: textarea
+    id: logs
+    attributes:
+      label: 로그 및 스크린샷
+      description: 오류 메시지나 스크린샷이 있다면 추가해주세요.
+      render: shell
+  
+  - type: textarea
+    id: additional
+    attributes:
+      label: 추가 정보
+      description: 문제에 대한 다른 정보를 추가해 주세요.
+      placeholder: 이 버그와 관련된 다른 내용을 자유롭게 작성해주세요.

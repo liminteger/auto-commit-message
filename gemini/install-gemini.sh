@@ -45,7 +45,7 @@ if ! command -v curl &> /dev/null; then
 fi
 
 # Create installation directory
-INSTALL_DIR="usr/local/bin"
+INSTALL_DIR="/usr/local/bin"
 mkdir -p "$INSTALL_DIR"
 
 # Copy script

@@ -78,7 +78,7 @@ elif [[ -n "$BASH_VERSION" ]]; then
     SHELL_RC="$HOME/.bashrc"
     log "Detected Bash. Using $SHELL_RC"
 else
-    echo "Unknown shell. Using ~/.zshrc as default."
+    echo "Unknown shell. Using ~/.bashrc as default."
 fi
 
 # API 키 입력 요청
@@ -88,7 +88,6 @@ fi
 # 환경 변수 추가
 if ! grep -q "AUTOCOMMIT_API_KEY" "$SHELL_RC"; then
     log "Adding environment variables to $SHELL_RC..."
- stereotyped to avoid duplicates
     {
         echo ""
         echo "# autocommit environment variables"
@@ -99,9 +98,9 @@ else
     log "Environment variables already exist in $SHELL_RC. Skipping..."
 fi
 
-# 5. Zsh 설정 테스트
-log "Testing Zsh configuration..."
-if ! zsh -n "$SHELL_RC" &> /dev/null; then
+# 5. Bash 설정 테스트
+log "Testing Bash configuration..."
+if ! bash -n "$SHELL_RC" &> /dev/null; then
     error_exit "Syntax error in $SHELL_RC. Please check the file and fix any issues."
 fi
 

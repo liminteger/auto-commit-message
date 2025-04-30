@@ -51,7 +51,7 @@ elif echo "$GIT_DIFF" | grep -q "app\.get"; then
     fi
 elif echo "$CHANGED_FILES" | grep -q "\.js$"; then
     COMMIT_MESSAGE="feat: JavaScript 코드 업데이트"
-elif echo "$CHANGED_FILES" | grep -q "\.css$\|\.scss$"; then
+elif echo "$CHANGED_FILES" | grep -q "\.css$"; then
     COMMIT_MESSAGE="style: 스타일 파일 수정"
 elif echo "$CHANGED_FILES" | grep -q "\.html$"; then
     COMMIT_MESSAGE="feat: HTML 템플릿 수정"

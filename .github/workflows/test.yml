@@ -27,4 +27,4 @@ jobs:
 
       - name: Run tests
         run: |
-          PYTHONPATH=. pytest pattern_based/test/pattern_based.test.py
+          PYTHONPATH=. pytest pattern_based/test/test_pattern_based.py

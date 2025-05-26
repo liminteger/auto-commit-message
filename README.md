@@ -9,6 +9,7 @@ AutoCommit is a CLI tool that automatically generates Git commit messages by ana
 ## 🔧 주요 기능 | Key Features
 
 - 다양한 방식의 커밋 메시지 생성 | Multiple commit generation modes:
+
   - **패턴 매칭**: LLM 없이도 기본적인 패턴 분석을 통해 메시지 생성  
     Simple pattern-based message generation without LLM
   - **Gemini**: Google의 Gemini API 활용 (API 키 필요)  
@@ -31,7 +32,6 @@ Please refer to the README.md files in each subdirectory (pattern_based, gemini,
 ---
 
 ## 📁 디렉토리 구조 | Project Structure
-
 - **pattern_based/**: 패턴 기반 커밋 메시지 생성기  
   Pattern-based commit message generator
   

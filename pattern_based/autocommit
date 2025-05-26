@@ -25,7 +25,9 @@ echo "변경 사항을 분석하여 커밋 메시지를 생성 중..."
 FILES_COUNT=$(echo "$CHANGED_FILES" | wc -l)
 
 # 파일 유형 확인
-if echo "$CHANGED_FILES" | grep -q "\.md$"; then
+if [ "$FILES_COUNT" -gt 1 ]; then
+    COMMIT_MESSAGE="feat: 여러 파일 추가 및 업데이트"
+elif echo "$CHANGED_FILES" | grep -q "\.md$"; then
     if echo "$CHANGED_FILES" | grep -q "README.md"; then
         COMMIT_MESSAGE="docs: README 문서 업데이트"
     else
@@ -35,8 +37,10 @@ elif echo "$CHANGED_FILES" | grep -q "LICENSE$"; then
     COMMIT_MESSAGE="chore: 라이센스 파일 추가"
 elif echo "$CHANGED_FILES" | grep -q "\.sh$"; then
     COMMIT_MESSAGE="feat: 쉘 스크립트 업데이트"
-elif [ "$FILES_COUNT" -gt 5 ]; then
-    COMMIT_MESSAGE="feat: 여러 파일 추가 및 업데이트"
+elif echo "$CHANGED_FILES" | grep -q "\.py$"; then
+    COMMIT_MESSAGE="feat: 파이썬 업데이트"
+elif echo "$CHANGED_FILES" | grep -q "\.c$"; then
+    COMMIT_MESSAGE="feat: C 언어 업데이트"
 elif echo "$GIT_DIFF" | grep -q "app\.get"; then
     # 라우트 관련 변경
     if echo "$GIT_DIFF" | grep -q "^\+.*app\.get"; then
@@ -51,7 +55,7 @@ elif echo "$GIT_DIFF" | grep -q "app\.get"; then
     fi
 elif echo "$CHANGED_FILES" | grep -q "\.js$"; then
     COMMIT_MESSAGE="feat: JavaScript 코드 업데이트"
-elif echo "$CHANGED_FILES" | grep -q "\.css$\|\.scss$"; then
+elif echo "$CHANGED_FILES" | grep -q "\.css$"; then
     COMMIT_MESSAGE="style: 스타일 파일 수정"
 elif echo "$CHANGED_FILES" | grep -q "\.html$"; then
     COMMIT_MESSAGE="feat: HTML 템플릿 수정"

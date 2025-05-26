@@ -16,6 +16,12 @@ $autocommitScript = @'
 # 1. git diff 명령어로 변경된 파일 추출
 $changedFiles = git diff --staged --name-only
 
+# git에 staged된 파일이 없는 경우
+if (-not $gitDiff) {
+    Write-Host "변경 사항이 없습니다." -ForegroundColor Red
+    exit
+}
+
 # 2. 추가된 코드와 삭제된 코드 추출
 $added = $changedFiles | Select-String '^\+.*' | ForEach-Object { $_.Line.TrimStart(' ') }
 $removed = $changedFiles | Select-String '^\-.*' | ForEach-Object { $_.Line.TrimStart(' ') }

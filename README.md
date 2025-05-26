@@ -80,8 +80,9 @@ Check out [`good first issue`](https://github.com/liminteger/auto-commit-message
 
 ## 📢 블로그 | Blog
 
-자세한 설명과 기여 가이드는 [블로그 포스트](https://liminteger.github.io/open%20source/github/project/2025/05/16/auto-commit-message-contribution/)를 참고하세요   
-For detailed explanations and contribution guides, please refer to [the blog post](https://liminteger.github.io/open%20source/github/project/2025/05/16/auto-commit-message-contribution/)  
+자세한 설명과 기여 가이드는 블로그 포스트를 참고하세요   
+For detailed explanations and contribution guides, please refer to the blog post  
+[liminteger](https://liminteger.github.io/blog/posts/contribute-to-auto-commit-message)
 
 ---
 

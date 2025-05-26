@@ -47,7 +47,7 @@ MODEL_PROMPTS = {
 async def generate_commit_message(
     request: DiffRequest,
     model: str = Query("llama3", description="Ollama model to use for generation"),
-    lang: str = Query("en", description="Language for the commit message (e.g., en, ko, ja)")
+    lang: str = Query("ko", description="Language for the commit message (e.g., en, ko, ja)")
 ):
     logger.info(f"Received request. Model: {model}, Language: {lang}, Diff snippet: {request.diff[:200]}...") # print 대신 logger 사용 및 diff 내용 일부 로깅
     try:

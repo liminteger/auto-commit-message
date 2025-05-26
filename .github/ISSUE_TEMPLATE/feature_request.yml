@@ -1,6 +1,6 @@
 name: "✨ 기능 요청"
 description: "새로운 기능 추가 요청"
-labels: ["✨feature"]
+labels: ["✨enhancement"]
 body:
   - type: markdown
     attributes:

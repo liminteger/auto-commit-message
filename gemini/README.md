@@ -29,20 +29,27 @@ This tool uses Google's Gemini API to analyze ***git diff*** and generate meanin
     ```
 
 2. Gemini API key 발급 | Getting Gemini API key
-    [Gemini API key](https://aistudio.google.com/app/apikey)
-    Google Cloud에서 Gemini API 키를 발급받습니다.  
-    Get your Gemini API key from Google Cloud.
+
+   [Google Cloud](https://aistudio.google.com/app/apikey)에서 Gemini API 키를 발급받습니다.  
+    Get your Gemini API key from [Google Cloud](https://aistudio.google.com/app/apikey).
 
 3. API key 설정 | setting API key
-    환경 변수로 API 키를 설정합니다
-    Set the API key as an environment variable:
+
+   환경 변수로 API 키를 설정합니다.
+   Set the API key as an environment variable:
     ```bash
-    export GEMINI_API_KEY="your_api_key"
+    echo 'export GEMINI_API_KEY="your_api_key"' >> ~/.bashrc
+    source ~/.bashrc
     ```
    `your_api_key` 자리에는 발급받은 API 키를 큰따옴표로 묶어 붙여넣습니다.
    Replace `your_api_key` with your issued API key, wrapped in double quotes.
-   
-4. autocommit 실행 | execution
+
+   API 키를 확인하려면 다음 코드를 입력합니다. To check the API key, enter the following command.
+   ```bash
+   echo $GEMINI_API_KEY 
+   ```
+       
+5. autocommit 실행 | execution
     ```bash
     autocommit-gemini
     ```

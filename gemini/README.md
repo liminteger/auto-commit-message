@@ -49,7 +49,7 @@ This tool uses Google's Gemini API to analyze ***git diff*** and generate meanin
    echo $GEMINI_API_KEY 
    ```
        
-5. autocommit 실행 | execution
+4. autocommit 실행 | execution
     ```bash
     autocommit-gemini
     ```

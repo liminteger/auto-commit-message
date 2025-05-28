@@ -56,8 +56,8 @@ A lightweight tool that generates **pattern-based commit messages** using Git di
 
 ## 🎉 축하합니다! | Congratulations!
 
-이제 Google Gemini API를 사용하여 Git 커밋 메시지를 생성하는 도구를 설정하고 사용할 준비가 완료되었습니다.  
-You're all set up to start generating Git commit messages with the Google Gemini API!
+Git 커밋 메시지를 생성하는 도구를 설정하고 사용할 준비가 완료되었습니다.  
+You're all set up to start generating Git commit messages based on document patterns!
 
 ---
 

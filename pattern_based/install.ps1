@@ -82,7 +82,7 @@ do {
                 Write-Host "커밋 내용을 작성하지 않아 커밋이 취소되었습니다. 다시 입력해주세요." -ForegroundColor Red
                 continue
             } else {
-                git commit --amend -m $newMessage
+                git commit -m $newMessage
                 Write-Host "커밋 메시지가 수정되었습니다." -ForegroundColor Green
                 break
             }

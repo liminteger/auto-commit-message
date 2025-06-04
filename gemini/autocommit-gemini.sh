@@ -77,13 +77,10 @@ generate_gemini_commit_message() {
         echo "Error: GEMINI_API_KEY environment variable not set" >&2
         return 1
     fi
-    
-    # API endpoint for Gemini 1.5
+
     local api_url="https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${api_key}"
-    
-    # Create prompt in temporary file
     local temp_file=$(mktemp)
-    
+
     cat > "$temp_file" << EOL
 You are an expert in writing high-quality Git commit messages. Create a concise, professional commit message that follows the Conventional Commits specification.
 
@@ -102,7 +99,6 @@ Lines added: $LINES_ADDED
 Lines deleted: $LINES_DELETED
 EOL
 
-    # Create JSON request using jq
     local json_file=$(mktemp)
     jq -n \
         --arg text "$(cat "$temp_file")" \
@@ -115,33 +111,24 @@ EOL
                 "maxOutputTokens": 100
             }
         }' > "$json_file"
-    
     rm "$temp_file"
-    
+
     echo "Calling Gemini API..." >&2
-    
-    # Make API request
     local response=$(curl -s -X POST \
         -H "Content-Type: application/json" \
         -d @"$json_file" \
         "$api_url")
-    
     rm "$json_file"
-    
-    # Check for errors
+
     if echo "$response" | grep -q "\"error\""; then
         echo "API Error: $(echo "$response" | jq -r '.error.message')" >&2
         echo "Full response: $response" >&2
         return 1
     fi
-    
-    # Extract commit message
+
     local commit_message=$(echo "$response" | jq -r '.candidates[0].content.parts[0].text')
-    
-    # Clean up message
     commit_message=$(echo "$commit_message" | tr -d '\n\r"' | sed -E 's/^[[:space:]]*//;s/[[:space:]]*$//')
-    
-    # Verify format
+
     if [[ "$commit_message" =~ ^(feat|fix|docs|style|refactor|test|chore):[[:space:]].+ ]]; then
         echo "$commit_message"
         return 0
@@ -151,60 +138,46 @@ EOL
     fi
 }
 
-# Function to edit commit message using the default editor
+# Function to edit commit message
 edit_commit_message() {
     local initial_message="$1"
-    local temp_file=$(mktemp)
+    >&2 echo "Enter your custom commit message (or press Enter to use the default):"
+    >&2 echo "Default suggestion: $initial_message"
+    read -r -p "> " new_message
 
-    echo "$initial_message" > "$temp_file"
-
-    EDITOR=${EDITOR:-$(command -v nano || command -v vim || command -v vi)}
-    if [ -z "$EDITOR" ]; then
-        echo "No suitable editor found. Install nano, vim or set the EDITOR environment variable." >&2
-        rm "$temp_file"
-        return 1
-    fi
-
-    "$EDITOR" "$temp_file"
-
-    local new_message=$(head -n 1 "$temp_file" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-    rm "$temp_file"
-
-    if [ -n "$new_message" ]; then
-        echo "$new_message"
-        return 0
+    if [ -z "$new_message" ]; then
+        echo "$initial_message"
     else
-        echo "Commit message was empty." >&2
-        return 1
+        echo "$new_message"
     fi
 }
 
-# Generate commit message with Gemini API
+# Generate commit message
 echo "Using Gemini API to generate commit message..." >&2
 COMMIT_MESSAGE=$(generate_gemini_commit_message)
 
-# Fallback to pattern-based message if API fails
 if [ $? -ne 0 ] || [ -z "$COMMIT_MESSAGE" ]; then
     echo "API call failed or did not return a valid commit message. Using pattern-based fallback." >&2
     COMMIT_MESSAGE=$(generate_fallback_message)
 fi
 
-# Display and confirm
 echo "Suggested commit message: $COMMIT_MESSAGE" >&2
 read -p "Do you want to commit with this message? (y/n/e-edit): " confirm
 
 if [ "$confirm" = "y" ]; then
     git commit -m "$COMMIT_MESSAGE"
-    echo "Successfully committed!" >&2
+    echo "✅ Successfully committed!" >&2
 elif [ "$confirm" = "e" ]; then
     echo "Opening editor to modify the suggested message..." >&2
     NEW_MESSAGE=$(edit_commit_message "$COMMIT_MESSAGE")
     if [ $? -eq 0 ] && [ -n "$NEW_MESSAGE" ]; then
         git commit -m "$NEW_MESSAGE"
-        echo "Successfully committed with your edited message!" >&2
+        echo "✅ Successfully committed with your edited message!" >&2
     else
-        echo "Commit message was empty. Commit cancelled." >&2
+        echo "❌ Commit message was empty. Commit cancelled." >&2
     fi
 else
-    echo "Commit cancelled." >&2
+    echo "❌ Commit cancelled." >&2
 fi
+
+

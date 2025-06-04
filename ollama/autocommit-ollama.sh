@@ -3,6 +3,8 @@
 # autocommit.sh: Generate and apply git commit messages using a server API
 
 VERSION="1.0.0-ollama"
+MODEL="llama3" # Default model
+LANG="ko"            # Default language (en or ko)
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
@@ -12,13 +14,39 @@ while [[ $# -gt 0 ]]; do
             exit 0
             ;;
         --help)
-            echo "Usage: $0 [--version] [--help]"
+            echo "Usage: $0 [--version] [--help] [--model <model_name>] [--lang <language_code>]"
             echo "Generate Git commit messages using Ollama server API"
             echo ""
             echo "Options:"
             echo "  --version               Show version information"
             echo "  --help                  Show this help message"
+            echo "  --model <model_name>    Specify the model to use for commit message generation (e.g., llama3)"
+            echo "  --lang <language_code>  Specify the language for the commit message (e.g., en, ko)"
             exit 0
+            ;;
+        --model)
+            if [[ -n "$2" && "$2" != --* ]]; then
+                MODEL="$2"
+                shift
+            else
+                echo "Error: --model option requires a value." >&2
+                exit 1
+            fi
+            ;;
+        --model=*)
+            MODEL="${1#*=}"
+            ;;
+        --lang)
+            if [[ -n "$2" && "$2" != --* ]]; then
+                LANG="$2"
+                shift
+            else
+                echo "Error: --lang option requires a value." >&2
+                exit 1
+            fi
+            ;;
+        --lang=*)
+            LANG="${1#*=}"
             ;;
         *)
             echo "Unknown option: $1" >&2
@@ -26,10 +54,11 @@ while [[ $# -gt 0 ]]; do
             exit 1
             ;;
     esac
+    shift
 done
 
 # Get environment variables
-API_URL=${AUTOCOMMIT_API_URL:-"https://466e-39-116-133-230.ngrok-free.app/generate-commit-message"}
+BASE_API_URL=${AUTOCOMMIT_API_URL:-"https://466e-39-116-133-230.ngrok-free.app/generate-commit-message"}
 
 # Function to get staged diff
 get_staged_diff() {
@@ -72,6 +101,14 @@ generate_commit_message() {
         exit 1
     fi
     
+    # Construct API URL with parameters
+    local api_url_with_params="$BASE_API_URL"
+    if [[ "$api_url_with_params" == *"?"* ]]; then
+        api_url_with_params="${api_url_with_params}&model=${MODEL}&lang=${LANG}"
+    else
+        api_url_with_params="${api_url_with_params}?model=${MODEL}&lang=${LANG}"
+    fi
+
     # Create JSON payload
     local json_file=$(mktemp)
     printf '{"diff": %s}\n' "$(echo "$diff" | jq -Rs .)" > "$json_file" || {
@@ -80,13 +117,13 @@ generate_commit_message() {
         exit 1
     }
 
-    echo "Calling server API..." >&2
+    echo "Calling server API: $api_url_with_params" >&2
 
     # Make API request
     local response=$(curl -s -X POST \
         -H "Content-Type: application/json" \
         -d @"$json_file" \
-        "$API_URL") || {
+        "$api_url_with_params") || {
         echo "Error: Failed to connect to server API." >&2
         rm -f "$json_file"
         return 1

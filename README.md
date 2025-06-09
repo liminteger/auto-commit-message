@@ -47,6 +47,8 @@ Please refer to the README.md files in each subdirectory (pattern_based, gemini,
 오픈소스 기여는 어렵지 않아요! 오타 수정부터 기능 개선까지, 모든 기여를 환영합니다.  
 Contributions of all sizes are welcome — from fixing typos to adding new features.
 
+자세한 기여 방법과 가이드라인은 [CONTRIBUTING.md](./CONTRIBUTING.md) 문서를 참고해주세요.
+
 ### 🪜 기여 절차 | How to Contribute
 
 1. 저장소 Fork | Fork the repository
@@ -87,5 +89,5 @@ For detailed explanations and contribution guides, please refer to [the blog pos
 
 ## 📄 라이선스 | License
 
-MIT License
+이 프로젝트는 [MIT 라이선스](./LICENSE)를 따릅니다.
 

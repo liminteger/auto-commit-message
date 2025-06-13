@@ -24,7 +24,7 @@ A lightweight tool that generates **pattern-based commit messages** using Git di
     ```bash
     chmod +x install.sh
     ```
-    ```ㅠㅁ노
+    ```
     sudo ./install.sh
     ```
 
@@ -32,7 +32,25 @@ A lightweight tool that generates **pattern-based commit messages** using Git di
     ```bash
     autocommit
     ```
+    
+3. 사용 예시 | Usage Example
 
+* 스테이징된 변경 사항이 없는 경우
+    ```bash
+    스테이징된 변경 사항이 없습니다. git add 명령어로 파일을 스테이징하세요.
+    ```
+
+* 작업을 수행하고 파일을 스테이징한 경우
+     ```bash
+    변경된 파일 : [파일이름]
+    변경 요약 : 1 file changed, 4 deletions(-)
+    변경 사항을 분석하여 커밋 메시지를 생성 중...
+    제안된 커밋 메시지 : [변경 사항을 분석하여 적절한 커밋 메시지가 표현됩니다.]
+    이 메시지로 커밋하시겠습니까? : (y/n/e-편집): 
+    ```
+    * y 입력 시 : 제안된 메시지로 커밋이 수행됩니다.
+    * n 입력 시 : 커밋이 취소됩니다.
+    * e 입력 시 : 편집기(기본값 : vi)가 열리고 메시지를 작성 후 저장하고 종료하면 해당 메시지로 커밋이 수행됩니다.
 ---
 
 ### 🔹 Windows

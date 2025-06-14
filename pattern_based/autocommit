@@ -73,7 +73,12 @@ if [ "$confirm" = "y" ]; then
     git commit -m "$COMMIT_MESSAGE"
     echo "성공적으로 커밋되었습니다!"
 elif [ "$confirm" = "e" ]; then
-    read -p "새 커밋 메시지를 입력하세요: " new_message
+    tmpfile=$(mktemp)
+    echo "# 새 커밋 메시지를 입력하세요. 한 줄 이상 작성 가능합니다." > "$tmpfile"
+    echo "" >> "$tmpfile"
+    ${EDITOR:-vim} "$tmpfile"
+    new_message=$(grep -v '^#' "$tmpfile" | sed '/^\s*$/d')
+    rm "$tmpfile"
     git commit -m "$new_message"
     echo "입력하신 메시지로 커밋되었습니다!"
 else

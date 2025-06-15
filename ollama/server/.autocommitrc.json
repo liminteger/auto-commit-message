@@ -1,0 +1,10 @@
+{
+  "commit_template": "type({scope}): {summary}\n\n{body}\n\nRelated to: {issue_refs}",
+  "template_instructions": {
+    "type": "Conventional Commits 타입 (feat, fix 등).",
+    "scope": "변경 범위 (옵션).",
+    "summary": "핵심 변경 요약.",
+    "body": "상세 설명. 72자 래핑.",
+    "issue_refs": "관련 이슈 번호 (예: #123)."
+  }
+}
